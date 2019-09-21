@@ -20,12 +20,16 @@
 
 ;;; Commentary:
 
-;; This package provides two macros to help with debugging: `dbg-msg'
-;; and `dbg-form'.  By default, they do nothing: `dbg-msg' expands to
+;; This package provides macros to help with debugging: `dbg-msg',
+;; `dbg-form', and `dbg-value'.
+
+;; By default, they do nothing: `dbg-msg' and `dbg-value' expand to
 ;; nil, and `dbg-form' expands to its FORM argument, as if only FORM
-;; were present in the code.  When debugging is enabled, `dbg-msg'
-;; expands into a `message' call, and `dbg-form' logs FORM and FORM's
-;; value with `message', then returns the value.
+;; were present in the code.
+
+;; When debugging is enabled, `dbg-msg' and `dbg-value' expand into a
+;; `message' call, and `dbg-form' logs FORM and FORM's value with
+;; `message', then returns the value.
 
 ;; Whether debugging is enabled is controlled with the variable
 ;; defined in `dbg-p-var', which is `dbg-p' by default.  `dbg-p-var'
@@ -69,6 +73,13 @@ Debugging is enabled when the value of the symbol stored in
            (message "dbg-form: %S: %S" ',form ,value)
            ,value))
     form))
+
+(cl-defmacro dbg-value (form)
+  "When debugging is enabled, log the value of FORM with `message'.
+Debugging is enabled when the value of the symbol stored in
+`dbg-p-var' is non-nil."
+  (when (symbol-value dbg-p-var)
+    `(message "dbg-value: %S" ,form)))
 
 ;;;; Footer
 
