@@ -25,7 +25,8 @@
 
 ;; By default, they do nothing: `dbg-msg' and `dbg-value' expand to
 ;; nil, and `dbg-form' expands to its FORM argument, as if only FORM
-;; were present in the code.
+;; were present in the code.  When byte-compiled, they have no runtime
+;; cost, as the `nil' is optimized out.
 
 ;; When debugging is enabled, `dbg-msg' and `dbg-value' expand into a
 ;; `message' call, and `dbg-form' logs FORM and FORM's value with
